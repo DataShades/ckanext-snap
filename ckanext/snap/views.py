@@ -135,3 +135,20 @@ def package_restore(id: str, snapshot_id: str):
 def package_forget(id: str, snapshot_id: str):
     tk.get_action("snap_snapshot_delete")({}, {"id": snapshot_id})
     return tk.redirect_to("snap.package_history", id=id)
+
+
+@bp.route("/dataset/<id>/snapshot/<snapshot_id>/read")
+def package_read(id: str, snapshot_id: str):
+    pkg_dict = tk.get_action("package_show")({}, {"id": id})
+    snapshot = tk.get_action("snap_snapshot_show")({}, {"id": snapshot_id})
+    if snapshot["target_id"] != pkg_dict["id"]:
+        raise tk.ObjectNotFound("snapshot")
+
+    return tk.render(
+        "snap/package_read.html",
+        {
+            "current_pkg_dict": pkg_dict,
+            "pkg_dict": snapshot["data"],
+            "snapshot": snapshot,
+        },
+    )

@@ -21,6 +21,7 @@
                     {{ h.csrf_input() }}
                     <button class="btn btn-danger">{{ _("Delete") }}</button>
                 </form>
+                <a class="btn btn-secondary" href="{{ h.url_for('snap.package_read', id=pkg.name, snapshot_id=item.id) }}">{{ _("View") }}</a>
 
                 <details class="mt-2">
                     <summary class="btn btn-default">{{ _("Details") }}</summary>
