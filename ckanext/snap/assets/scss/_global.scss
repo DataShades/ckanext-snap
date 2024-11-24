@@ -1,0 +1,20 @@
+@use "sass:map";
+@use "mixins" as m;
+@use "variables" as v;
+
+html {
+    font-size: var(--snap-mobile-font-size);
+
+    @include m.breakpoint(md) {
+        font-size: var(--snap-desktop-font-size);
+    }
+}
+
+body {
+    font-family: var(--snap-font-main);
+}
+
+:focus,
+:focus-visible {
+    outline: var(--snap-color-outline) auto 1px;
+}
