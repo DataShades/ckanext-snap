@@ -10,6 +10,3 @@ changelog:  ## compile changelog
 
 deploy-docs:  ## build and publish documentation
 	mkdocs gh-deploy
-
-changelog:  ## compile changelog
-	git changelog -c conventional -o CHANGELOG.md $(if $(bump),-B $(bump))

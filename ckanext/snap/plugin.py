@@ -1,12 +1,13 @@
-"""Definition of the main plugin.
-"""
+"""Definition of the main plugin."""
 
 from __future__ import annotations
+
 from typing import Any
 
-from ckan import types
 import ckan.plugins as p
 import ckan.plugins.toolkit as tk
+from ckan import types
+
 from . import subscriptions
 
 
@@ -28,4 +29,3 @@ class SnapPlugin(
 
     def update_config(self, config_: Any):
         tk.add_template_directory(config_, "templates")
-        tk.add_resource("assets", "files")

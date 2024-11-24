@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-
-from ckan import types, authz
+from ckan import authz, types
 
 
 def snap_snapshot_create(context: types.Context, data_dict: dict[str, Any]):

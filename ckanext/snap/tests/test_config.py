@@ -9,8 +9,7 @@ import pytest
 from ckanext.snap import config
 
 
-
-@pytest.mark.skip
+@pytest.mark.skip()
 class TestMultivalued:
     """Test multivalued() accessor."""
 

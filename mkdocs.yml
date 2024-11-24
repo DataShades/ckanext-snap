@@ -1,7 +1,7 @@
 site_name: ckanext-snap
-site_url: https://.github.io/ckanext-snap/
+site_url: https://datashades.github.io/ckanext-snap/
 
-repo_url:  https://github.com//ckanext-snap
+repo_url:  https://github.com/DataShades/ckanext-snap
 
 markdown_extensions:
   - pymdownx.snippets
@@ -24,9 +24,10 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
+          paths: ["ckanext"]
           options:
             show_root_full_path: false
-            show_root_toc_entry: false
+            show_root_heading: true
             show_symbol_type_heading: true
             show_source: false
             docstring_section_style: spacy
@@ -35,6 +36,7 @@ plugins:
 
 watch:
   - README.md
+  - ckanext/snap
 
 theme:
   name: material
@@ -75,4 +77,6 @@ theme:
 nav:
   - index.md
   - installation.md
+  - api.md
+  - configuration.md
   - changelog.md

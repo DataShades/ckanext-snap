@@ -19,7 +19,7 @@ from ckan.tests.helpers import CKANTestApp
 # blueprints are registered when plugin is enabled, so `with_plugins` is
 # mandatory fixture for any view test.
 @pytest.mark.usefixtures("with_plugins")
-@pytest.mark.skip
+@pytest.mark.skip()
 def test_page(app: CKANTestApp):
     """Basic page is rendered without errors."""
     resp = app.get(tk.url_for("snap.page"))
@@ -27,7 +27,7 @@ def test_page(app: CKANTestApp):
     assert resp.body == "Hello, snap!"
 
 
-@pytest.mark.skip
+@pytest.mark.skip()
 @pytest.mark.usefixtures("with_plugins")
 def test_page_redirect(app: CKANTestApp):
     """Basic page is rendered without errors."""
@@ -45,7 +45,7 @@ def test_page_redirect(app: CKANTestApp):
     assert resp.headers["location"] == expected
 
 
-@pytest.mark.skip
+@pytest.mark.skip()
 @pytest.mark.usefixtures("with_plugins")
 class TestComplex:
     def test_get(self, app: CKANTestApp, faker: Faker):

@@ -1,13 +1,16 @@
 from __future__ import annotations
 
 from typing import Any
+
 import sqlalchemy as sa
+
 import ckan.plugins.toolkit as tk
 from ckan.logic import validate
 from ckan.types import Context
 
-from ckanext.snap.model import Snapshot
 from ckanext.snap import config
+from ckanext.snap.model import Snapshot
+
 from . import schema
 
 
@@ -17,8 +20,8 @@ def snap_snapshot_create(context: Context, data_dict: dict[str, Any]):
 
     Args:
         target_type (str): aliquam erat volutpat
-        target_id: (str): nullam tempus
-        data (dict[str, Any], optional): aliquam feugiat tellus ut neque
+        target_id (str): nullam tempus
+        data (dict[str, Any]): aliquam feugiat tellus ut neque
 
     Returns:
         details of the new snapshot object
@@ -42,7 +45,7 @@ def snap_snapshot_delete(context: Context, data_dict: dict[str, Any]):
     """Delete snapshot object.
 
     Args:
-        id: (str): nullam tempus
+        id (str): nullam tempus
 
     Returns:
         details of the removed snapshot object
@@ -65,7 +68,7 @@ def snap_snapshot_show(context: Context, data_dict: dict[str, Any]):
     """Show snapshot object.
 
     Args:
-        id: (str): nullam tempus
+        id (str): nullam tempus
 
     Returns:
         details of the snapshot object
@@ -85,10 +88,10 @@ def snap_snapshot_list(context: Context, data_dict: dict[str, Any]) -> dict[str,
     """List snapshot objects.
 
     Args:
-        target_type: (str): nullam tempus
-        target_id: (str): nullam tempus
-        rows: (int): nullam tempus
-        start: (int): nullam tempus
+        target_type (str): nullam tempus
+        target_id (str): nullam tempus
+        rows (int): nullam tempus
+        start (int): nullam tempus
 
     Returns:
         collection of snapshot objects
@@ -119,7 +122,7 @@ def snap_snapshot_restore(context: Context, data_dict: dict[str, Any]):
     """Restore snapshot object.
 
     Args:
-        id: (str): nullam tempus
+        id (str): nullam tempus
 
     Returns:
         details of the restored object

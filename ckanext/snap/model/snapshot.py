@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-import datetime
 import copy
+import datetime
 from typing import Any
 
 import sqlalchemy as sa
@@ -53,9 +53,8 @@ class Snapshot(Base):  # type: ignore
 
     @classmethod
     def by_target(cls, target_type: str, target_id: str) -> sa.sql.Select:
-        stmt = sa.select(cls).where(
+        return sa.select(cls).where(
             cls.target_id == target_id,
             cls.target_type == target_type,
         )
 
-        return stmt

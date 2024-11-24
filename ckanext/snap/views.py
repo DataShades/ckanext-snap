@@ -16,15 +16,12 @@ Example:
 from __future__ import annotations
 
 import functools
-from typing import Any, cast
+from typing import Any
 
 from flask import Blueprint
-from flask.views import MethodView
-from ckan.lib.helpers import Page
 
 import ckan.plugins.toolkit as tk
-from ckan import model
-from ckan.logic import parse_params
+from ckan.lib.helpers import Page
 
 __all__ = ["bp"]
 
@@ -86,7 +83,6 @@ def _pager_url(*args: Any, **kwargs: Any) -> str:
 @bp.route("/dataset/<id>/snapshot")
 def package_history(id: str):
     """Basic page."""
-
     pkg_dict = tk.get_action("package_show")({}, {"id": id})
 
     rows = 10

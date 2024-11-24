@@ -8,6 +8,7 @@ from ckan.tests.helpers import call_action
 
 from ckanext.snap.model import Snapshot
 
+
 @pytest.mark.ckan_config("ckan.plugins", "snap")
 @pytest.mark.usefixtures("with_plugins")
 def test_snapshot_create(faker: Faker):
