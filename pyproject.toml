@@ -74,7 +74,7 @@ select = [
        "N",  # naming conventions
        "I",  # isort
        "ICN", # import conventions
-       # "D1",  # require doc
+       "D1",  # require doc
        "D2",  # doc formatting
        "D4",  # doc convention
        "PL",  # pylint
@@ -101,7 +101,7 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"ckanext/snap/tests*" = ["S", "PL", "ANN"]
+"ckanext/snap/tests*" = ["S", "PL", "ANN", "D1"]
 "ckanext/snap/logic/*" = [
             "D417", # actions don't describe context and data_dict
 ]

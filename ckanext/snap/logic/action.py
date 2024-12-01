@@ -117,6 +117,36 @@ def snap_snapshot_list(context: Context, data_dict: dict[str, Any]) -> dict[str,
     }
 
 
+@validate(schema.snapshot_update)
+def snap_snapshot_update(context: Context, data_dict: dict[str, Any]):
+    """Update snapshot object.
+
+    Args:
+        id (str): nullam tempus
+        data (str | None): nullam tempus
+        name (str | None): nullam tempus
+
+    Returns:
+        details of the updated object
+    """
+    tk.check_access("snap_snapshot_update", context, data_dict)
+
+    sess = context["session"]
+    obj = sess.get(Snapshot, data_dict["id"])
+    if not obj:
+        raise tk.ObjectNotFound("snapshot")
+
+    if "data" in data_dict:
+        obj.data = data_dict["data"]
+
+    if "name" in data_dict:
+        obj.name = data_dict["name"]
+
+    sess.commit()
+
+    return obj.dictize(context)
+
+
 @validate(schema.snapshot_restore)
 def snap_snapshot_restore(context: Context, data_dict: dict[str, Any]):
     """Restore snapshot object.

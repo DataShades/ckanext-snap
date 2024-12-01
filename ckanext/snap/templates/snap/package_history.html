@@ -2,6 +2,17 @@
 
 {% block subtitle %}{{ _('Snapshots') }} {{ g.template_title_delimiter }} {{ super() }}{% endblock %}
 
+{% block content_action %}
+    {% if h.check_access('snap_snapshot_create', {'target_id':pkg.id, 'target_type': 'package' }) %}
+        <form class="d-inline-flex" method="POST" action="{{ h.url_for('snap.package_create', id=pkg.name) }}">
+            {{ h.csrf_input() }}
+            <button class="btn btn-default">{{ _("Create snapshot") }}</button>
+        </form>
+
+        {% link_for _('Create snapshot'), named_route=pkg.type ~ '.edit', id=pkg.name, class_='btn btn-light', icon='wrench' %}
+    {% endif %}
+{% endblock %}
+
 
 {% block primary_content_inner %}
     <ul>
@@ -17,6 +28,8 @@
                     {{ h.csrf_input() }}
                     <button class="btn btn-success">{{ _("Restore") }}</button>
                 </form>
+                <a class="btn btn-secondary" href="{{ h.url_for('snap.package_update', id=pkg.name, snapshot_id=item.id) }}">{{ _("Edit") }}</a>
+
                 <form class="d-inline-flex" method="POST" action="{{ h.url_for('snap.package_forget', id=pkg.name, snapshot_id=item.id) }}">
                     {{ h.csrf_input() }}
                     <button class="btn btn-danger">{{ _("Delete") }}</button>
@@ -37,3 +50,4 @@
 
     {{ pager.pager() }}
 {% endblock %}
+`

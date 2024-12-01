@@ -18,6 +18,7 @@ from __future__ import annotations
 import functools
 from typing import Any
 
+from ckan.logic import parse_params
 from flask import Blueprint
 
 import ckan.plugins.toolkit as tk
@@ -121,7 +122,7 @@ def package_restore(id: str, snapshot_id: str):
         result = tk.get_action("snap_snapshot_restore")({}, {"id": snapshot_id})
 
     except tk.ValidationError as err:
-        tk.h.flash_error(f"Cannot restore data from snapshot: {err.error_summary}")
+        tk.h.flash_error(f"Cannot restore data from snapshot: {err.error_dict}")
         return tk.redirect_to("snap.package_history", id=id)
     except KeyError as err:
         # most likely action does not exist
@@ -137,12 +138,43 @@ def package_forget(id: str, snapshot_id: str):
     return tk.redirect_to("snap.package_history", id=id)
 
 
+@bp.route("/dataset/<id>/snapshot/<snapshot_id>/update", methods=["GET", "POST"])
+def package_update(id: str, snapshot_id: str):
+    if tk.request.method == "POST":
+        data = parse_params(tk.request.form)
+
+        try:
+            tk.get_action("snap_snapshot_update")({}, dict(data, id=snapshot_id))
+        except tk.ValidationError as err:
+            tk.h.flash_error(f"Cannot restore data from snapshot: {err.error_summary}")
+        else:
+            return tk.redirect_to("snap.package_history", id=id)
+
+    pkg_dict = tk.get_action("package_show")({}, {"id": id})
+    snapshot = tk.get_action("snap_snapshot_show")({}, {"id": snapshot_id})
+    if snapshot["target_id"] != pkg_dict["id"]:
+        raise tk.ObjectNotFound("snapshot")
+
+    return tk.render(
+        "snap/package_update.html",
+        {
+            "pkg_dict": pkg_dict,
+            "snapshot": snapshot,
+        },
+    )
+
+
 @bp.route("/dataset/<id>/snapshot/<snapshot_id>/read")
 def package_read(id: str, snapshot_id: str):
     pkg_dict = tk.get_action("package_show")({}, {"id": id})
     snapshot = tk.get_action("snap_snapshot_show")({}, {"id": snapshot_id})
     if snapshot["target_id"] != pkg_dict["id"]:
         raise tk.ObjectNotFound("snapshot")
+
+    current_urls = {res["url"] for res in pkg_dict["resources"]}
+    old_urls = {res["url"] for res in snapshot["data"].get("resources", [])}
+
+    tk.g.snapshot_only_urls = old_urls - current_urls
 
     return tk.render(
         "snap/package_read.html",
@@ -152,3 +184,19 @@ def package_read(id: str, snapshot_id: str):
             "snapshot": snapshot,
         },
     )
+
+
+@bp.route("/dataset/<id>/snapshot/create", methods=["POST"])
+def package_create(id: str):
+    pkg_dict = tk.get_action("package_show")({}, {"id": id})
+
+
+    tk.get_action("snap_snapshot_create")(
+        {"ignore_auth": True},
+        {
+            "target_type": "package",
+            "target_id": pkg_dict["id"],
+            "data": pkg_dict,
+        },
+    )
+    return tk.redirect_to("snap.package_history", id=id)

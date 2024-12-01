@@ -27,6 +27,7 @@ class Snapshot(Base):  # type: ignore
         sa.Column("name", sa.UnicodeText, nullable=False, default=now),
         sa.Column("data", JSONB, default=dict),
         sa.Column("plugin_data", JSONB, default=dict),
+        sa.Index("ix_snap_snapshot_created_at_desc", sa.column("created_at").desc()),
     )
 
     id: Mapped[str]
@@ -57,4 +58,3 @@ class Snapshot(Base):  # type: ignore
             cls.target_id == target_id,
             cls.target_type == target_type,
         )
-

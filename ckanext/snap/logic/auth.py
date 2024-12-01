@@ -10,6 +10,11 @@ def snap_snapshot_create(context: types.Context, data_dict: dict[str, Any]):
     return authz.is_authorized("sysadmin", context, data_dict)
 
 
+def snap_snapshot_update(context: types.Context, data_dict: dict[str, Any]):
+    """Only sysadmin can update snapshot."""
+    return authz.is_authorized("sysadmin", context, data_dict)
+
+
 def snap_snapshot_delete(context: types.Context, data_dict: dict[str, Any]):
     """Only sysadmin can delete snapshot."""
     return authz.is_authorized("sysadmin", context, data_dict)

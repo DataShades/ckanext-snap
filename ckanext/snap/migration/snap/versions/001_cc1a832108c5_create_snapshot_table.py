@@ -25,6 +25,7 @@ def upgrade():
         sa.Column("name", sa.UnicodeText, nullable=False, server_default=sa.func.now()),
         sa.Column("data", JSONB, server_default="{}"),
         sa.Column("plugin_data", JSONB, server_default="{}"),
+        sa.Index("ix_snap_snapshot_created_at_desc", sa.column("created_at").desc()),
     )
 
 
