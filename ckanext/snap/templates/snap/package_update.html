@@ -1,0 +1,26 @@
+{% extends "package/read.html" %}
+{% import "macros/form.html" as form %}
+
+{% block subtitle %}{{ _('Snapshots') }} {{ g.template_title_delimiter }} {{ super() }}{% endblock %}
+
+{% block content_action %}
+    {% if h.check_access('snap_snapshot_list', {'target_id':pkg.id, 'target_type': 'package' }) %}
+        <a class="btn btn-light" href="{{ h.url_for('snap.package_history', id=pkg.name) }}">
+            <i class="fa fa-clock"></i>
+            {{ _("History") }}
+        </a>
+    {% endif %}
+{% endblock %}
+
+
+{% block primary_content_inner %}
+    <form method="POST" action="{{ h.url_for('snap.package_update', id=pkg.name, snapshot_id=snapshot.id) }}">
+        {{ h.csrf_input() }}
+
+        {{ form.input("name", label=_("Name"), value=snapshot.name) }}
+        {{ form.textarea("data", label=_("Data"), value=snapshot.data|tojson) }}
+
+        <button class="btn btn-success">{{ _("Update") }}</button>
+    </form>
+
+{% endblock %}
